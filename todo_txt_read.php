@@ -3,12 +3,17 @@
 $str = ''; // 出力用の空の文字列
 $file = fopen('data/weightMemo.csv', 'r'); // ファイルを開く(読み取り専用) 
 flock($file, LOCK_EX); // ファイルをロック
-if ($file) {
-  while ($line = fgets($file)) {  // fgets()で1行ずつ取得→$lineに格納
-    $str .= "<tr><td>{$line}</td></tr>"; // 取得したデータを$strに入れる
-  }
+// if ($file) {
+//   while ($line = fgetcsv($file)) {  // fgets()で1行ずつ取得→$lineに格納
+//     $str .= "<tr><td>{$line}</td></tr>"; // 取得したデータを$strに入れる
+//   }
+// }
+
+// 各行を配列に直す.
+while (($data = fgetcsv($file, 0, ",")) !== FALSE) {
+  $csv[] =  $data;
 }
-// var_dump($str);
+// var_dump($csv);
 // exit();
 flock($file, LOCK_UN); // ロック解除 fclose($file); // ファイル閉じる // ($strに全部の情報が入る!
 
